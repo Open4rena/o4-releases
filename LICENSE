@@ -28,9 +28,14 @@ of this Agreement.
    services is governed by their own terms, and you are responsible for
    any fees they charge.
 
-4. Telemetry. The Software operates locally. It transmits data to third
-   parties only as required to fulfill requests you initiate (for
-   example, sending prompts to a model provider you configured).
+4. Telemetry. The Software operates locally. Model and tool traffic is
+   sent only to providers you configure. The Software also transmits a
+   minimal anonymous usage ping (a random install identifier, Software
+   version, operating system, and CPU architecture -- no file contents,
+   prompts, paths, or personal information) to Open4rena at most once
+   per day. This ping can be disabled at any time through the Software's
+   settings or the O4_TELEMETRY=0 environment variable, and its payload
+   is documented in the Software's documentation.
 
 5. Updates. Open4rena may provide updates to the Software, which are
    governed by this Agreement unless accompanied by different terms.
