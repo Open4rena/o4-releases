@@ -4,7 +4,7 @@ set -euo pipefail
 # o4 installer — downloads the latest release binary from GitHub.
 #
 # Usage:
-#   curl -fsSL https://install.open4rena.ai/o4 | bash
+#   curl -fsSL https://open4rena.ai/install.sh | bash
 #
 # Environment variables:
 #   O4_INSTALL_DIR  — override install directory (default: ~/.local/bin)

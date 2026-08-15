@@ -5,7 +5,7 @@
 Only the latest release of o4 is supported. Update with the install command before reporting an issue:
 
 ```sh
-curl -fsSL https://install.open4rena.ai/o4 | bash
+curl -fsSL https://open4rena.ai/install.sh | bash
 ```
 
 ## Reporting a vulnerability

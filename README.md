@@ -11,7 +11,7 @@ public.
 ## Install
 
 ```sh
-curl -fsSL https://install.open4rena.ai/o4 | bash
+curl -fsSL https://open4rena.ai/install.sh | bash
 ```
 
 Or download a release directly from the
