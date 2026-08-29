@@ -8,10 +8,14 @@ campaigns, and session continuity.
 This repository hosts **binary releases** of o4. The source code is not
 public.
 
-## Install
+## Test candidate
+
+The installer is temporarily serving the `0.0.80` launch candidate from
+source commit `b216b00785389f7b9ab575ecaccfb4e938773ec8`. It is available for
+cross-machine testing, but it is not the final production release.
 
 ```sh
-curl -fsSL https://open4rena.ai/install.sh | bash
+curl -fsSL https://install.open4rena.ai/install.sh | bash
 ```
 
 Or download a release directly from the
@@ -22,11 +26,14 @@ Options:
 
 ```sh
 O4_INSTALL_DIR=~/bin  # override install directory (default: ~/.local/bin)
-O4_VERSION=0.0.1      # pin a specific version instead of latest
+O4_VERSION=0.0.80-test.1  # pin the current test package
 ```
 
 Every artifact ships with a SHA-256 checksum that the installer verifies
 before installing.
+
+The production command will return to `https://open4rena.ai/install.sh` after
+the remaining launch gates pass.
 
 ## Supported platforms
 

@@ -1,0 +1,32 @@
+name: Installer smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    name: Install on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+
+    steps:
+      - name: Install test candidate
+        shell: bash
+        env:
+          INSTALL_URL: https://install.open4rena.ai/install.sh
+          EXPECTED_VERSION: o4 0.0.80
+        run: |
+          set -euo pipefail
+          install_dir="${RUNNER_TEMP}/o4-bin"
+          curl -fsSL "${INSTALL_URL}" | O4_INSTALL_DIR="${install_dir}" bash
+          test "$("${install_dir}/o4" --version)" = "${EXPECTED_VERSION}"
+          "${install_dir}/o4" --help >/dev/null
+          "${install_dir}/o4" --list-models >/dev/null

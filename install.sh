@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# o4 installer — downloads the latest release binary from GitHub.
+# o4 installer — downloads the current public test candidate from GitHub.
 #
 # Usage:
-#   curl -fsSL https://open4rena.ai/install.sh | bash
+#   curl -fsSL https://install.open4rena.ai/install.sh | bash
 #
 # Environment variables:
 #   O4_INSTALL_DIR  — override install directory (default: ~/.local/bin)
-#   O4_VERSION      — install a specific version instead of latest (e.g. "0.0.1")
+#   O4_VERSION      — install a specific release tag (default: "0.0.80-test.1")
 
 # Releases are published to a separate public repo — not the source repo.
 RELEASES_REPO="Open4rena/o4-releases"
 INSTALL_DIR="${O4_INSTALL_DIR:-$HOME/.local/bin}"
-VERSION="${O4_VERSION:-}"
+VERSION="${O4_VERSION:-0.0.80-test.1}"
 
 # --- Helpers ---
 
@@ -71,17 +71,9 @@ ARCH="$(detect_arch)"
 ARTIFACT="o4-${OS}-${ARCH}"
 
 info "Platform: ${OS}/${ARCH}"
+info "Channel: TEST CANDIDATE (not a production release)"
 
 # --- Resolve version ---
-
-if [ -z "$VERSION" ]; then
-  info "Fetching latest release..."
-  VERSION="$(curl -fsSL "https://api.github.com/repos/${RELEASES_REPO}/releases/latest" | grep '"tag_name"' | head -1 | sed -E 's/.*"v?([^"]+)".*/\1/')"
-  if [ -z "$VERSION" ]; then
-    err "could not determine latest release version"
-    exit 1
-  fi
-fi
 
 info "Version: ${VERSION}"
 
@@ -130,6 +122,11 @@ mkdir -p "$INSTALL_DIR"
 install -m 755 "${TMPDIR}/${ARTIFACT}" "${INSTALL_DIR}/o4"
 ok "Installed to ${INSTALL_DIR}/o4"
 
+if ! INSTALLED_VERSION="$("${INSTALL_DIR}/o4" --version)"; then
+  err "installed binary did not start successfully"
+  exit 1
+fi
+
 # --- PATH check ---
 
 case ":${PATH}:" in
@@ -153,7 +150,7 @@ esac
 # --- Next steps ---
 
 echo ""
-ok "o4 ${VERSION} installed successfully!"
+ok "${INSTALLED_VERSION} test candidate installed successfully!"
 echo ""
 echo "  Next steps:"
 echo "    1. Set an API key:  export ANTHROPIC_API_KEY=sk-ant-..."
