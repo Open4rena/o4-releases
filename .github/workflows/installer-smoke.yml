@@ -1,7 +1,19 @@
 name: Installer smoke
 
 on:
+  release:
+    types:
+      - published
   workflow_dispatch:
+    inputs:
+      package_version:
+        description: Package version without the leading v
+        required: true
+        type: string
+      binary_version:
+        description: Version reported by o4 --version
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -18,15 +30,38 @@ jobs:
           - macos-latest
 
     steps:
-      - name: Install test candidate
+      - name: Install published package
         shell: bash
         env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_PACKAGE_VERSION: ${{ inputs.package_version }}
+          INPUT_BINARY_VERSION: ${{ inputs.binary_version }}
           INSTALL_URL: https://install.open4rena.ai/install.sh
-          EXPECTED_VERSION: o4 0.0.80
         run: |
           set -euo pipefail
-          install_dir="${RUNNER_TEMP}/o4-bin"
-          curl -fsSL "${INSTALL_URL}" | O4_INSTALL_DIR="${install_dir}" bash
-          test "$("${install_dir}/o4" --version)" = "${EXPECTED_VERSION}"
-          "${install_dir}/o4" --help >/dev/null
-          "${install_dir}/o4" --list-models >/dev/null
+
+          if [[ "${EVENT_NAME}" == "release" ]]; then
+            package_version="${RELEASE_TAG#v}"
+            binary_version="${package_version%%-test.*}"
+          else
+            package_version="${INPUT_PACKAGE_VERSION#v}"
+            binary_version="${INPUT_BINARY_VERSION#v}"
+          fi
+
+          test -n "${package_version}"
+          test -n "${binary_version}"
+
+          pinned_dir="${RUNNER_TEMP}/o4-pinned"
+          curl -fsSL "${INSTALL_URL}" |
+            O4_INSTALL_DIR="${pinned_dir}" O4_VERSION="${package_version}" bash
+          test "$("${pinned_dir}/o4" --version)" = "o4 ${binary_version}"
+          "${pinned_dir}/o4" --help >/dev/null
+          "${pinned_dir}/o4" --list-models >/dev/null
+
+          if [[ "${package_version}" == *-test.* ]]; then
+            default_dir="${RUNNER_TEMP}/o4-default-channel"
+            curl -fsSL "${INSTALL_URL}" |
+              O4_INSTALL_DIR="${default_dir}" bash
+            test "$("${default_dir}/o4" --version)" = "o4 ${binary_version}"
+          fi
