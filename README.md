@@ -8,13 +8,12 @@ campaigns, and session continuity.
 This repository hosts **binary releases** of o4. The source code is not
 public.
 
-## Test candidate
+## Install
 
-The default installer channel tracks the newest published `*-test.*` package.
-It is available for cross-machine testing, but it is not the final production
-release. A source version does not enter the channel until both supported
-archives and checksums are published. A release-triggered installer smoke then
-verifies the exact package and default channel on macOS and Linux immediately.
+The installer downloads the latest stable release. A source version becomes
+installable only after both supported archives and checksums are published. A
+release-triggered smoke verifies the exact package and the default installer on
+macOS and Linux immediately.
 
 ```sh
 curl -fsSL https://install.open4rena.ai/install.sh | bash
@@ -31,16 +30,13 @@ curl -fsSL https://install.open4rena.ai/install.sh |
   O4_INSTALL_DIR=~/bin bash
 
 curl -fsSL https://install.open4rena.ai/install.sh |
-  O4_VERSION=0.0.81-test.1 bash
-
-curl -fsSL https://install.open4rena.ai/install.sh |
-  O4_CHANNEL=stable bash
+  O4_VERSION=0.0.82 bash
 ```
 
 Every artifact ships with a SHA-256 checksum that the installer verifies
 before installing.
 
-The channel and publication contract is documented in [SPEC.md](SPEC.md).
+The publication contract is documented in [SPEC.md](SPEC.md).
 
 The production command will return to `https://open4rena.ai/install.sh` after
 the remaining launch gates pass.

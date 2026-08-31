@@ -8,13 +8,11 @@ set -euo pipefail
 #
 # Environment variables:
 #   O4_INSTALL_DIR  — override install directory (default: ~/.local/bin)
-#   O4_CHANNEL      — release channel: test (default) or stable
-#   O4_VERSION      — pin an exact package version instead of resolving a channel
+#   O4_VERSION      — pin an exact package version instead of the latest release
 
 # Releases are published to a separate public repo — not the source repo.
 RELEASES_REPO="Open4rena/o4-releases"
 INSTALL_DIR="${O4_INSTALL_DIR:-$HOME/.local/bin}"
-CHANNEL="${O4_CHANNEL:-test}"
 VERSION="${O4_VERSION:-}"
 
 # --- Helpers ---
@@ -78,53 +76,27 @@ info "Platform: ${OS}/${ARCH}"
 
 if [ -n "$VERSION" ]; then
   VERSION="${VERSION#v}"
-  info "Channel: exact package pin"
+  info "Release: exact version pin"
 else
-  case "$CHANNEL" in
-    test)
-      info "Channel: TEST CANDIDATE (not a production release)"
-      info "Resolving newest published test package..."
-      if ! RELEASES_JSON="$(curl -fsSL \
-        "https://api.github.com/repos/${RELEASES_REPO}/releases?per_page=20")"; then
-        err "could not query published test releases"
-        err "retry later or set O4_VERSION to an exact package version"
-        exit 1
-      fi
-      VERSION="$(printf '%s\n' "$RELEASES_JSON" | sed -n \
-        's/.*"tag_name":[[:space:]]*"v\([0-9][0-9.]*-test\.[0-9][0-9]*\)".*/\1/p' | sed -n '1p')"
-      ;;
-    stable)
-      info "Channel: stable"
-      info "Resolving latest stable release..."
-      if ! RELEASES_JSON="$(curl -fsSL \
-        "https://api.github.com/repos/${RELEASES_REPO}/releases/latest")"; then
-        err "could not query the latest stable release"
-        err "retry later or set O4_VERSION to an exact package version"
-        exit 1
-      fi
-      VERSION="$(printf '%s\n' "$RELEASES_JSON" | sed -n \
-        's/.*"tag_name":[[:space:]]*"v\([^"]*\)".*/\1/p' | sed -n '1p')"
-      ;;
-    *)
-      err "unsupported channel: ${CHANNEL} (expected test or stable)"
-      exit 1
-      ;;
-  esac
+  info "Release: latest stable"
+  info "Resolving latest published release..."
+  if ! RELEASES_JSON="$(curl -fsSL \
+    "https://api.github.com/repos/${RELEASES_REPO}/releases/latest")"; then
+    err "could not query the latest release"
+    err "retry later or set O4_VERSION to an exact version"
+    exit 1
+  fi
+  VERSION="$(printf '%s\n' "$RELEASES_JSON" | sed -n \
+    's/.*"tag_name":[[:space:]]*"v\([^"]*\)".*/\1/p' | sed -n '1p')"
 
   if [ -z "$VERSION" ]; then
-    err "no published ${CHANNEL} package could be resolved"
+    err "no published release could be resolved"
     err "check: https://github.com/${RELEASES_REPO}/releases"
     exit 1
   fi
 fi
 
 info "Version: ${VERSION}"
-
-if [[ "$VERSION" == *-test.* ]]; then
-  PACKAGE_LABEL="test candidate"
-else
-  PACKAGE_LABEL="release"
-fi
 
 # --- Download ---
 
@@ -199,7 +171,7 @@ esac
 # --- Next steps ---
 
 echo ""
-ok "${INSTALLED_VERSION} ${PACKAGE_LABEL} installed successfully!"
+ok "${INSTALLED_VERSION} installed successfully!"
 echo ""
 echo "  Next steps:"
 echo "    1. Set an API key:  export ANTHROPIC_API_KEY=sk-ant-..."

@@ -43,7 +43,7 @@ jobs:
 
           if [[ "${EVENT_NAME}" == "release" ]]; then
             package_version="${RELEASE_TAG#v}"
-            binary_version="${package_version%%-test.*}"
+            binary_version="${package_version}"
           else
             package_version="${INPUT_PACKAGE_VERSION#v}"
             binary_version="${INPUT_BINARY_VERSION#v}"
@@ -59,9 +59,9 @@ jobs:
           "${pinned_dir}/o4" --help >/dev/null
           "${pinned_dir}/o4" --list-models >/dev/null
 
-          if [[ "${package_version}" == *-test.* ]]; then
-            default_dir="${RUNNER_TEMP}/o4-default-channel"
-            curl -fsSL "${INSTALL_URL}" |
-              O4_INSTALL_DIR="${default_dir}" bash
-            test "$("${default_dir}/o4" --version)" = "o4 ${binary_version}"
-          fi
+          default_dir="${RUNNER_TEMP}/o4-latest-stable"
+          curl -fsSL "${INSTALL_URL}" |
+            O4_INSTALL_DIR="${default_dir}" bash
+          test "$("${default_dir}/o4" --version)" = "o4 ${binary_version}"
+          "${default_dir}/o4" --help >/dev/null
+          "${default_dir}/o4" --list-models >/dev/null
