@@ -11,9 +11,9 @@ public.
 ## Install
 
 The installer downloads the latest stable release. A source version becomes
-installable only after both supported archives and checksums are published. A
+installable only after all supported archives and checksums are published. A
 release-triggered smoke verifies the exact package and the default installer on
-macOS and Linux immediately.
+every supported macOS and Linux architecture immediately.
 
 ```sh
 curl -fsSL https://install.open4rena.ai/install.sh | bash
@@ -46,6 +46,8 @@ the remaining launch gates pass.
 | Platform | Artifact |
 | --- | --- |
 | macOS (Apple Silicon) | `o4-macos-arm64.tar.gz` |
+| macOS (Intel) | `o4-macos-x86_64.tar.gz` |
+| Linux (ARM64) | `o4-linux-arm64.tar.gz` |
 | Linux (x86_64) | `o4-linux-x86_64.tar.gz` |
 
 ## Getting started

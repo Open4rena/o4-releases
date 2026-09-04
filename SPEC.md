@@ -4,7 +4,7 @@
 
 The public installer must select a published binary package, not infer a
 version from the private source repository. A source version is installable
-only after both supported archives and their checksums are present in a
+only after all supported archives and their checksums are present in a
 published release.
 
 ## Release contract
@@ -23,6 +23,10 @@ Every published package must contain:
 
 - `o4-macos-arm64.tar.gz`
 - `o4-macos-arm64.tar.gz.sha256`
+- `o4-macos-x86_64.tar.gz`
+- `o4-macos-x86_64.tar.gz.sha256`
+- `o4-linux-arm64.tar.gz`
+- `o4-linux-arm64.tar.gz.sha256`
 - `o4-linux-x86_64.tar.gz`
 - `o4-linux-x86_64.tar.gz.sha256`
 
@@ -31,12 +35,12 @@ The archive contains one executable whose name matches the archive stem.
 ## Promotion order
 
 1. Select an exact clean source commit and record its binary version.
-2. Build and smoke the two packaged binaries from that commit.
-3. Create a draft release and upload all four required assets.
+2. Build and smoke the four packaged binaries from that commit.
+3. Create a draft release and upload all eight required assets.
 4. Verify asset names, sizes, and SHA-256 digests.
 5. Publish the release as a normal stable release.
 6. Let the release-triggered installer smoke verify both an explicit pin and
-   the default latest-stable path on macOS and Linux.
+   the default latest-stable path on all four supported platforms.
 7. Confirm the public installer reports the expected binary version from an
    anonymous clean install.
 
