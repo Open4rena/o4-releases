@@ -1,0 +1,29 @@
+name: Bug report
+description: Something in o4 is broken or behaves wrongly.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem. Paste any error message.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What did you do before it happened?
+      placeholder: |
+        1. Run `o4` in ...
+        2. Type ...
+        3. See ...
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: o4 version (`o4 --version`), OS, and model. `/bug` fills this in for you.
