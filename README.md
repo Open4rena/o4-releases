@@ -16,7 +16,13 @@ release-triggered smoke verifies the exact package and the default installer on
 every supported macOS and Linux architecture immediately.
 
 ```sh
-curl -fsSL https://install.open4rena.ai/install.sh | bash
+curl -fsSL https://open4rena.ai/install.sh | bash
+```
+
+Or with [Homebrew](https://brew.sh), on macOS or Linux:
+
+```sh
+brew install open4rena/tap/o4
 ```
 
 Or download a release directly from the
@@ -26,20 +32,17 @@ binary on your `PATH`.
 Options:
 
 ```sh
-curl -fsSL https://install.open4rena.ai/install.sh |
+curl -fsSL https://open4rena.ai/install.sh |
   O4_INSTALL_DIR=~/bin bash
 
-curl -fsSL https://install.open4rena.ai/install.sh |
-  O4_VERSION=0.0.82 bash
+curl -fsSL https://open4rena.ai/install.sh |
+  O4_VERSION=0.2.54 bash
 ```
 
 Every artifact ships with a SHA-256 checksum that the installer verifies
 before installing.
 
 The publication contract is documented in [SPEC.md](SPEC.md).
-
-The production command will return to `https://open4rena.ai/install.sh` after
-the remaining launch gates pass.
 
 ## Supported platforms
 
