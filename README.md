@@ -46,7 +46,6 @@ the remaining launch gates pass.
 | Platform | Artifact |
 | --- | --- |
 | macOS (Apple Silicon) | `o4-macos-arm64.tar.gz` |
-| macOS (Intel) | `o4-macos-x86_64.tar.gz` |
 | Linux (ARM64) | `o4-linux-arm64.tar.gz` |
 | Linux (x86_64) | `o4-linux-x86_64.tar.gz` |
 
