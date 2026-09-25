@@ -23,8 +23,6 @@ Every published package must contain:
 
 - `o4-macos-arm64.tar.gz`
 - `o4-macos-arm64.tar.gz.sha256`
-- `o4-macos-x86_64.tar.gz`
-- `o4-macos-x86_64.tar.gz.sha256`
 - `o4-linux-arm64.tar.gz`
 - `o4-linux-arm64.tar.gz.sha256`
 - `o4-linux-x86_64.tar.gz`
@@ -35,12 +33,12 @@ The archive contains one executable whose name matches the archive stem.
 ## Promotion order
 
 1. Select an exact clean source commit and record its binary version.
-2. Build and smoke the four packaged binaries from that commit.
-3. Create a draft release and upload all eight required assets.
+2. Build and smoke the three packaged binaries from that commit.
+3. Create a draft release and upload all six required assets.
 4. Verify asset names, sizes, and SHA-256 digests.
 5. Publish the release as a normal stable release.
 6. Let the release-triggered installer smoke verify both an explicit pin and
-   the default latest-stable path on all four supported platforms.
+   the default latest-stable path on all three supported platforms.
 7. Confirm the public installer reports the expected binary version from an
    anonymous clean install.
 

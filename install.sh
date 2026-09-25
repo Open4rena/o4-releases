@@ -68,6 +68,22 @@ detect_arch() {
 
 OS="$(detect_os)"
 ARCH="$(detect_arch)"
+
+# Current macOS packages are built for Apple Silicon only. A shell running
+# under Rosetta reports x86_64 on Apple Silicon hardware, so ask the
+# hardware. An explicit O4_VERSION pin may still select an older package
+# that shipped an Intel build.
+if [ "$OS" = "macos" ] && [ "$ARCH" = "x86_64" ]; then
+  if [ "$(sysctl -n hw.optional.arm64 2>/dev/null)" = "1" ]; then
+    ARCH="arm64"
+  elif [ -z "$VERSION" ]; then
+    err "o4 for macOS requires Apple Silicon."
+    err "the last package for Intel Macs is 0.2.54:"
+    err "  curl -fsSL https://open4rena.ai/install.sh | O4_VERSION=0.2.54 bash"
+    exit 1
+  fi
+fi
+
 ARTIFACT="o4-${OS}-${ARCH}"
 
 info "Platform: ${OS}/${ARCH}"
