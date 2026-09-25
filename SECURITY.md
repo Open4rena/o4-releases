@@ -8,6 +8,8 @@ Only the latest release of o4 is supported. Update with the install command befo
 curl -fsSL https://open4rena.ai/install.sh | bash
 ```
 
+If you installed with Homebrew, update with `brew upgrade o4`.
+
 ## Reporting a vulnerability
 
 Report vulnerabilities privately through [GitHub security advisories](https://github.com/Open4rena/o4-releases/security/advisories/new). Do not open a public issue for security reports.
