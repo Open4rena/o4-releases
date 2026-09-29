@@ -1,0 +1,64 @@
+o4 End User License Agreement
+
+Copyright (c) 2026 Open4rena. All rights reserved.
+
+This End User License Agreement ("Agreement") governs your use of the o4
+software binaries distributed through this repository (the "Software").
+By downloading, installing, or using the Software, you agree to the terms
+of this Agreement.
+
+1. License grant. Open4rena grants you a personal, non-exclusive,
+   non-transferable, revocable license to install and use the Software on
+   devices you own or control, for your own internal use, including
+   commercial use of the Software's output.
+
+2. Restrictions. You may not, and may not permit others to:
+   (a) copy, modify, adapt, translate, or create derivative works of the
+       Software;
+   (b) reverse engineer, decompile, disassemble, or otherwise attempt to
+       derive the source code of the Software, except to the extent such
+       restriction is prohibited by applicable law;
+   (c) rent, lease, lend, sell, sublicense, or redistribute the Software,
+       or make it available to third parties as a hosted or managed
+       service without prior written permission from Open4rena;
+   (d) remove or alter any proprietary notices in or on the Software.
+
+3. Third-party services. The Software can connect to third-party model
+   providers and services using credentials you supply. Your use of those
+   services is governed by their own terms, and you are responsible for
+   any fees they charge.
+
+4. Telemetry. The Software operates locally. Model and tool traffic is
+   sent only to providers you configure. The Software also transmits a
+   minimal anonymous usage ping (a random install identifier, Software
+   version, operating system, and CPU architecture -- no file contents,
+   prompts, paths, or personal information) to Open4rena at most once
+   per day. This ping can be disabled at any time through the Software's
+   settings or the O4_TELEMETRY=0 environment variable, and its payload
+   is documented in the Software's documentation.
+
+5. Updates. Open4rena may provide updates to the Software, which are
+   governed by this Agreement unless accompanied by different terms.
+
+6. Ownership. The Software is licensed, not sold. Open4rena and its
+   licensors retain all right, title, and interest in and to the
+   Software.
+
+7. Termination. This Agreement terminates automatically if you breach
+   its terms. Upon termination you must cease using and delete all
+   copies of the Software.
+
+8. Disclaimer of warranty. THE SOFTWARE IS PROVIDED "AS IS" WITHOUT
+   WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WITHOUT
+   LIMITATION WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+   PURPOSE, AND NON-INFRINGEMENT.
+
+9. Limitation of liability. TO THE MAXIMUM EXTENT PERMITTED BY LAW,
+   OPEN4RENA SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL,
+   CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF DATA, PROFITS, OR
+   REVENUE, ARISING FROM OR RELATED TO YOUR USE OF THE SOFTWARE.
+
+10. General. This Agreement is the entire agreement between you and
+    Open4rena regarding the Software and supersedes any prior
+    agreements. If any provision is held unenforceable, the remaining
+    provisions remain in effect.

@@ -1,0 +1,68 @@
+name: Verify install
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      package_version:
+        description: Package version without the leading v
+        required: true
+        type: string
+      binary_version:
+        description: Version reported by o4 --version
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    name: Install on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - macos-latest
+
+    steps:
+      - name: Install published package
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_PACKAGE_VERSION: ${{ inputs.package_version }}
+          INPUT_BINARY_VERSION: ${{ inputs.binary_version }}
+          INSTALL_URL: https://open4rena.ai/install.sh
+        run: |
+          set -euo pipefail
+
+          if [[ "${EVENT_NAME}" == "release" ]]; then
+            package_version="${RELEASE_TAG#v}"
+            binary_version="${package_version}"
+          else
+            package_version="${INPUT_PACKAGE_VERSION#v}"
+            binary_version="${INPUT_BINARY_VERSION#v}"
+          fi
+
+          test -n "${package_version}"
+          test -n "${binary_version}"
+
+          pinned_dir="${RUNNER_TEMP}/o4-pinned"
+          curl -fsSL "${INSTALL_URL}" |
+            O4_INSTALL_DIR="${pinned_dir}" O4_VERSION="${package_version}" bash
+          test "$("${pinned_dir}/o4" --version)" = "o4 ${binary_version}"
+          "${pinned_dir}/o4" --help >/dev/null
+          "${pinned_dir}/o4" --list-models >/dev/null
+
+          default_dir="${RUNNER_TEMP}/o4-latest-stable"
+          curl -fsSL "${INSTALL_URL}" |
+            O4_INSTALL_DIR="${default_dir}" bash
+          test "$("${default_dir}/o4" --version)" = "o4 ${binary_version}"
+          "${default_dir}/o4" --help >/dev/null
+          "${default_dir}/o4" --list-models >/dev/null

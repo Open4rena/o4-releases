@@ -1,0 +1,16 @@
+name: Feedback
+description: An idea, a feature request, or anything else you want to tell us.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your feedback
+      description: What would make o4 better for you?
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: o4 version (`o4 --version`), OS, and model. `/feedback` fills this in for you.
